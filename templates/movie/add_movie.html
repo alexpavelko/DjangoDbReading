@@ -1,0 +1,19 @@
+{% load static %}
+{% include "navigation.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить фильм</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Добавить фильм</h1>
+    <form method="post" action="{% url 'add_movie' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить фильм</button>
+    </form>
+</body>
+</html>

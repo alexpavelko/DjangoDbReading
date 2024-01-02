@@ -1,0 +1,21 @@
+{% load static %}
+{% include "navigation.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie.title }}</title>
+     <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>{{ movie.title }}</h1>
+    <p>Дата выхода: {{ movie.release_year }}</p>
+    <p>Рейтинг: {{ movie.stars_rating }} ️</p>
+    <p>Жанры:
+        {% for genre in movie.genres.all %}
+            {{ genre.title }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+</body>
+</html>
