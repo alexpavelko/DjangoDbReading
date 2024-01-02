@@ -1,37 +1,32 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView
 
 from .forms import GenreForm, MovieForm
-from .models import Movie
+from .models import Movie, Genre
 
 
-def add_genre(request):
-    if request.method == 'POST':
-        form = GenreForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('get_movies')
-    else:
-        form = GenreForm()
-    return render(request, 'genre/add_genre.html', {'form': form})
+class AddGenreView(CreateView):
+    model = Genre
+    form_class = GenreForm
+    template_name = 'genre/add_genre.html'
+    success_url = reverse_lazy('get_movies')
 
 
-def add_movie(request):
-    if request.method == 'POST':
-        form = MovieForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('get_movies')
-    else:
-        print("-")
-        form = MovieForm()
-    return render(request, 'movie/add_movie.html', {'form': form})
+class AddMovieView(CreateView):
+    model = Movie
+    form_class = MovieForm
+    template_name = 'movie/add_movie.html'
+    success_url = reverse_lazy('get_movies')
 
 
-def get_movies(request):
-    movies = Movie.objects.all()
-    return render(request, 'movie/get_movies.html', {'movies': movies})
+class GetMoviesView(ListView):
+    model = Movie
+    template_name = 'movie/get_movies.html'
+    context_object_name = 'movies'
 
 
-def get_movie(request, movie_id):
-    movie = Movie.objects.get(id=movie_id)
-    return render(request, 'movie/get_movie.html', {'movie': movie})
+class GetMovieView(DetailView):
+    model = Movie
+    template_name = 'movie/get_movie.html'
+    context_object_name = 'movie'
+
